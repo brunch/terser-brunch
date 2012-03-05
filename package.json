@@ -1,0 +1,27 @@
+{
+  "name": "uglify-js-brunch",
+  "version": "1.0.0",
+  "description": "Adds Uglify minifying support to brunch.",
+  "author": "Paul Miller (http://paulmillr.com/)",
+  "homepage": "https://github.com/brunch/uglify-js-brunch",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:brunch/uglify-js-brunch.git"
+  },
+  "main": "./lib/index",
+  "scripts": {
+    "postinstall": "./node_modules/coffee-script/bin/coffee -o lib/ src/",
+    "test": "./node_modules/mocha/bin/mocha --require test/common.js"
+  },
+  "engines": {
+    "node": "~0.6.10"
+  },
+  "dependencies": {
+    "coffee-script": "1.2.0",
+    "uglify-js": "1.2.5"
+  },
+  "devDependencies": {
+    "mocha": "0.12.1",
+    "expect.js": "0.1.2"
+  }
+}
