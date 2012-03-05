@@ -9,17 +9,17 @@ describe('Plugin', function() {
     expect(plugin).to.be.ok();
   });
 
-  it('should has #beforeWrite method', function() {
-    expect(plugin.beforeWrite).to.be.a(Function);
+  it('should has #minify method', function() {
+    expect(plugin.minify).to.be.a(Function);
   });
 
   it('should compile and produce valid result', function(done) {
-    var content = '';
-    var expected = '';
+    var content = '(function() {var first = 5; var second = 14;})()';
+    var expected = '(function(){var a=5,b=14})()';
 
-    plugin.compile(content, '', function(error, data) {
+    plugin.minify(content, '', function(error, data) {
       expect(error).not.to.be.ok();
-      expect(data).to.equal(expected)
+      expect(data).to.equal(expected);
       done();
     });
   });
