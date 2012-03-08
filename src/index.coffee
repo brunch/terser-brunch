@@ -4,7 +4,8 @@ uglify = require 'uglify-js'
 {parse} = uglify.parser
 
 module.exports = class UglifyMinifier
-  minifierType: 'javascript'
+  brunchPlugin: yes
+  type: 'javascript'
 
   constructor: (@config) ->
     null
