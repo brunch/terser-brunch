@@ -9,7 +9,7 @@ var execute = function(pathParts, params, callback) {
   var command = 'node ' + path + ' ' + params;
   console.log('Executing', command);
   exec(command, function(error, stdout, stderr) {
-    if (error != null) return process.stderr.write('Error', stderr.toString());
+    if (error != null) return process.stderr.write(stderr.toString());
     process.stdout.write(stdout.toString());
   });
 };
