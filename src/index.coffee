@@ -14,6 +14,6 @@ module.exports = class UglifyMinifier
     try
       minified = gen_code ast_squeeze ast_mangle parse data
     catch err
-      error = "JS minify failed on #{file.path}: #{error}"
+      error = "JS minify failed on #{path}: #{error}"
     process.nextTick ->
       callback error, (minified or data)
