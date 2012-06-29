@@ -1,2 +1,2 @@
-expect = require('expect.js');
-Plugin = require('../lib');
+global.expect = require('chai').expect;
+global.Plugin = require('../lib');

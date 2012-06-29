@@ -6,19 +6,19 @@ describe('Plugin', function() {
   });
 
   it('should be an object', function() {
-    expect(plugin).to.be.ok();
+    expect(plugin).to.be.ok;
   });
 
   it('should has #minify method', function() {
-    expect(plugin.minify).to.be.a(Function);
+    expect(plugin.minify).to.be.an.instanceof(Function);
   });
 
   it('should compile and produce valid result', function(done) {
     var content = '(function() {var first = 5; var second = 14;})()';
-    var expected = '(function(){var a=5,b=14})()';
+    var expected = '(function(){var e=5,t=14})()';
 
     plugin.minify(content, '', function(error, data) {
-      expect(error).not.to.be.ok();
+      expect(error).not.to.be.ok;
       expect(data).to.equal(expected);
       done();
     });
