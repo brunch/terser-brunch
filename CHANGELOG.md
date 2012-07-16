@@ -1,3 +1,6 @@
+# uglify-js-brunch 1.3.1 (July 16, 2012)
+* Switched to better error reporting.
+
 # uglify-js-brunch 1.3.0 (June 29, 2012)
 * Added node.js 0.8 and 0.9 support.
 * Package is now precompiled before every publishing to npm.
