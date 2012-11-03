@@ -1,18 +1,16 @@
 sysPath = require 'path'
 uglify = require 'uglify-js'
-{gen_code, ast_squeeze, ast_mangle} = uglify.uglify
-{parse} = uglify.parser
 
 module.exports = class UglifyMinifier
   brunchPlugin: yes
   type: 'javascript'
 
   constructor: (@config) ->
-    null
+    @options = @config?.plugins?.uglify ? {}
 
   minify: (data, path, callback) ->
     try
-      minified = gen_code ast_squeeze ast_mangle parse data
+      minified = uglify data, @options
     catch err
       error = "JS minify failed on #{path}: #{err}"
     process.nextTick ->

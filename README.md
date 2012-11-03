@@ -11,3 +11,13 @@ Pick a plugin version that corresponds to your minor (y) brunch version.
 
 If you want to use git version of plugin, add
 `"uglify-js-brunch": "git+ssh://git@github.com:brunch/uglify-js-brunch.git"`.
+
+To specify uglifyjs options, use `config.plugins.uglify` object, for example:
+
+```
+config: {
+  plugins: {
+    uglify: {mangle_options: {mangle: false}}
+  }
+}
+```
