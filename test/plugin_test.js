@@ -14,8 +14,8 @@ describe('Plugin', function() {
   });
 
   it('should compile and produce valid result', function(done) {
-    var content = '(function() {var first = 5; var second = 14;})()';
-    var expected = '(function(){var e=5,t=14})()';
+    var content = '(function() {var first = 5; window.second = first;})()';
+    var expected = '(function(){var n=5;window.second=n})();';
 
     plugin.minify(content, '', function(error, data) {
       expect(error).not.to.be.ok;

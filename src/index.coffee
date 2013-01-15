@@ -10,7 +10,7 @@ module.exports = class UglifyMinifier
 
   minify: (data, path, callback) ->
     try
-      minified = uglify data, @options
+      minified = uglify.minify(data, fromString: yes).code
     catch err
       error = "JS minify failed on #{path}: #{err}"
     process.nextTick ->
