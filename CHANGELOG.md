@@ -1,3 +1,8 @@
+# uglify-js-brunch 1.5.0 (January 13, 2012)
+* Updated to uglify 2.2.
+* Added source maps support.
+* Improved installation process.
+
 # uglify-js-brunch 1.3.1 (July 16, 2012)
 * Switched to better error reporting.
 
