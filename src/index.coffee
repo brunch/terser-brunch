@@ -6,12 +6,15 @@ module.exports = class UglifyMinifier
   type: 'javascript'
 
   constructor: (@config) ->
-    @options = @config?.plugins?.uglify ? {}
+    @options = fromString: yes
+    
+    if typeof @config?.plugins?.uglify == 'object'
+      @options[key] = value for key, value of @config.plugins.uglify
 
-  minify: (data, path, callback) ->
+  optimize: (data, path, callback) =>
     try
-      minified = uglify.minify(data, fromString: yes).code
+      optimized = uglify.minify(data, @options).code
     catch err
       error = "JS minify failed on #{path}: #{err}"
     process.nextTick ->
-      callback error, (minified or data)
+      callback error, (optimized or data)
