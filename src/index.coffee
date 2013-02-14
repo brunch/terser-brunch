@@ -8,7 +8,7 @@ module.exports = class UglifyMinifier
   constructor: (@config) ->
     @options = fromString: yes
     
-    if @config?.plugins?.uglify instanceof Object
+    if typeof @config?.plugins?.uglify == 'object'
       @options[key] = value for key, value of @config.plugins.uglify
 
   minify: (data, path, callback) =>
