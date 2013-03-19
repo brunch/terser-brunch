@@ -17,7 +17,14 @@ To specify uglifyjs options, use `config.plugins.uglify` object, for example:
 ```
 config: {
   plugins: {
-    uglify: {mangle_options: {mangle: false}}
+    uglify: { 
+      mangle: false,
+      compress: {
+        global_defs: {
+          DEBUG: false
+        }
+      }
+    }   
   }
 }
 ```
