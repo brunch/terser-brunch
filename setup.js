@@ -14,12 +14,16 @@ var getBinaryPath = function(binary) {
 
 var execute = function(path, params, callback) {
   if (callback == null) callback = function() {};
-  var command = 'node ' + path + ' ' + params;
+  var command = path + ' ' + params;
   console.log('Executing', command);
   exec(command, function(error, stdout, stderr) {
     if (error != null) return process.stderr.write(stderr.toString());
     console.log(stdout.toString());
   });
+};
+
+var execNode = function(path, params, callback) {
+  execute('node ' + getBinaryPath(path), params, callback);
 };
 
 var togglePostinstall = function(add) {
@@ -39,7 +43,7 @@ switch (mode) {
   // Remove `.postinstall` script to prevent stupid npm bugs.
   case 'prepublish':
     togglePostinstall(false);
-    execute(getBinaryPath('coffee'), '-o lib/ src/');
+    execute('coffee', '-o lib/ src/');
     break;
 
   // Bring back `.postinstall` script.
@@ -51,14 +55,13 @@ switch (mode) {
   case 'postinstall':
     fsExists(sysPath.join(__dirname, 'lib'), function(exists) {
       if (exists) return;
-      execute(getBinaryPath('coffee'), '-o lib/ src/');
+      execute('coffee', '-o lib/ src/');
     });
     break;
 
   // Run tests.
   case 'test':
-      execute(
-        getBinaryPath('mocha'),
+      execNode('mocha',
         '--compilers coffee:coffee-script --require test/common.js --colors'
       );
     break;
