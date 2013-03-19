@@ -15,7 +15,6 @@
     "test": "node setup.js test"
   },
   "dependencies": {
-    "coffee-script": "1.4.0",
     "uglify-js": "2.2.x"
   },
   "devDependencies": {
