@@ -10,9 +10,8 @@
   },
   "main": "./lib/index",
   "scripts": {
-    "prepublish": "node setup.js prepublish",
-    "postpublish": "node setup.js postpublish",
-    "test": "node setup.js test"
+    "prepublish": "rm -rf lib && coffee --bare --output lib/ src/",
+    "test": "node_modules/.bin/mocha --compilers coffee:coffee-script --require test/common.js"
   },
   "dependencies": {
     "uglify-js": "2.2.x"
