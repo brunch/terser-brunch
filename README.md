@@ -5,11 +5,13 @@ Adds [UglifyJS](https://github.com/mishoo/UglifyJS) support to
 The plugin will minify your javascript files.
 
 ## Usage
-Add `"uglify-js-brunch": "x.y.z"` to `package.json` of your brunch app.
+Install the plugin via npm with `npm install --save uglify-js-brunch`.
 
-Pick a plugin version that corresponds to your minor (y) brunch version.
+Or, do manual install:
 
-If you want to use git version of plugin, add
+* Add `"uglify-js-brunch": "x.y.z"` to `package.json` of your brunch app.
+  Pick a plugin version that corresponds to your minor (y) brunch version.
+* If you want to use git version of plugin, add
 `"uglify-js-brunch": "git+ssh://git@github.com:brunch/uglify-js-brunch.git"`.
 
 To specify uglifyjs options, use `config.plugins.uglify` object, for example:
@@ -17,14 +19,14 @@ To specify uglifyjs options, use `config.plugins.uglify` object, for example:
 ```
 config: {
   plugins: {
-    uglify: { 
+    uglify: {
       mangle: false,
       compress: {
         global_defs: {
           DEBUG: false
         }
       }
-    }   
+    }
   }
 }
 ```
