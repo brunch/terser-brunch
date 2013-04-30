@@ -9,7 +9,9 @@ module.exports = class UglifyMinifier
     @options = fromString: yes
     
     if typeof @config?.plugins?.uglify == 'object'
-      @options[key] = value for key, value of @config.plugins.uglify
+      for key, value of @config.plugins.uglify
+        unless typeof value is 'object' and Object.isFrozen value
+          @options[key] = value
 
   optimize: (data, path, callback) =>
     try
