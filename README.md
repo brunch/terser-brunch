@@ -17,18 +17,13 @@ Or, do manual install:
 To specify uglifyjs options, use `config.plugins.uglify` object, for example:
 
 ```
-config: {
-  plugins: {
-    uglify: {
-      mangle: false,
-      compress: {
-        global_defs: {
+config =
+  plugins:
+    uglify:
+      mangle: false
+      compress:
+        global_defs: 
           DEBUG: false
-        }
-      }
-    }
-  }
-}
 ```
 
 ## License

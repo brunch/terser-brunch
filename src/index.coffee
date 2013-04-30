@@ -6,10 +6,9 @@ module.exports = class UglifyMinifier
   type: 'javascript'
 
   constructor: (@config) ->
-    @options = fromString: yes
-    
-    if typeof @config?.plugins?.uglify == 'object'
-      @options[key] = value for key, value of @config.plugins.uglify
+    @options = clone @config?.plugins?.uglify
+    @options = {} unless typeof @options is 'object'
+    @options.fromString = yes
 
   optimize: (data, path, callback) =>
     try
@@ -18,3 +17,9 @@ module.exports = class UglifyMinifier
       error = "JS minify failed on #{path}: #{err}"
     process.nextTick ->
       callback error, (optimized or data)
+
+clone = (obj) ->
+  return obj if not obj? or typeof obj isnt 'object'
+  copied = new obj.constructor()
+  copied[key] = clone val for key, val of obj
+  copied
