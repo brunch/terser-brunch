@@ -1,15 +1,20 @@
 sysPath = require 'path'
 uglify = require 'uglify-js'
 
+clone = (obj) ->
+  return obj if not obj? or typeof obj isnt 'object'
+  copied = new obj.constructor()
+  copied[key] = clone val for key, val of obj
+  copied
+
 module.exports = class UglifyMinifier
   brunchPlugin: yes
   type: 'javascript'
 
   constructor: (@config) ->
-    @options = fromString: yes
-    
-    if typeof @config?.plugins?.uglify == 'object'
-      @options[key] = value for key, value of @config.plugins.uglify
+    @options = clone @config?.plugins?.uglify
+    @options = {} unless typeof @options is 'object'
+    @options.fromString = yes
 
   optimize: (data, path, callback) =>
     try
