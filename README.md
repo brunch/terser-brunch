@@ -15,8 +15,7 @@ Or, do manual install:
 `"uglify-js-brunch": "git+ssh://git@github.com:brunch/uglify-js-brunch.git"`.
 
 To specify uglifyjs options, use `config.plugins.uglify` object, for example:
-
-```
+```coffeescript
 config =
   plugins:
     uglify:
