@@ -15,11 +15,11 @@ module.exports = class UglifyMinifier
     @options = clone @config?.plugins?.uglify
     @options = {} unless typeof @options is 'object'
     @options.fromString = yes
+    @options.outSourceMap = @config.modules.addSourceUrls
 
   optimize: (data, path, callback) =>
     try
-      optimized = uglify.minify(data, @options).code
+      result = uglify.minify(data, @options)
     catch err
       error = "JS minify failed on #{path}: #{err}"
-    process.nextTick ->
-      callback error, (optimized or data)
+    callback error, (result or data)
