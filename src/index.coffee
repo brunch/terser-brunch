@@ -15,7 +15,7 @@ module.exports = class UglifyMinifier
     @options = clone @config?.plugins?.uglify
     @options = {} unless typeof @options is 'object'
     @options.fromString = yes
-    @options.outSourceMap = @config.modules.addSourceUrls
+    @options.outSourceMap = @config.modules.sourceMaps
 
   optimize: (data, path, callback) =>
     try
