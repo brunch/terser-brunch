@@ -20,6 +20,8 @@ module.exports = class UglifyMinifier
   optimize: (data, path, callback) =>
     try
       result = uglify.minify(data, @options)
+      if not @options.outSourceMap
+        result = result.code
     catch err
       error = "JS minify failed on #{path}: #{err}"
     callback error, (result or data)
