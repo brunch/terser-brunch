@@ -15,7 +15,7 @@ describe('Plugin', function() {
 
   it('should compile and produce valid result', function(done) {
     var content = '(function() {var first = 5; window.second = first;})()';
-    var expected = '(function(){var n=5;window.second=n})();';
+    var expected = '!function(){var n=5;window.second=n}();';
 
     plugin.optimize(content, '', function(error, data) {
       expect(error).not.to.be.ok;
@@ -28,7 +28,7 @@ describe('Plugin', function() {
     plugin = new Plugin({sourceMaps: true});
 
     var content = '(function() {var first = 5; window.second = first;})()';
-    var expected = '(function(){var n=5;window.second=n})();';
+    var expected = '!function(){var n=5;window.second=n}();';
 
     plugin.optimize(content, '', function(error, data) {
       expect(error).not.to.be.ok;
