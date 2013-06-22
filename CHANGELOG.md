@@ -1,3 +1,7 @@
+# uglify-js-brunch 1.7.0 (22 June 2013)
+* Added source maps support.
+* Updated to uglify 2.3.
+
 # uglify-js-brunch 1.5.1 (19 March 2013)
 * Added node 0.10 support, removed coffee-script dependency.
 
