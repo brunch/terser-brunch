@@ -29,10 +29,12 @@ describe('Plugin', function() {
 
     var content = '(function() {var first = 5; window.second = first;})()';
     var expected = '!function(){var n=5;window.second=n}();';
+    var expectedMap = '{"version":3,"file":".map","sources":["?"],"names":["first","window","second"],"mappings":"CAAA,WAAa,GAAIA,GAAQ,CAAGC,QAAOC,OAASF"}';
 
     plugin.optimize(content, '', function(error, data) {
       expect(error).not.to.be.ok;
       expect(data.code).to.equal(expected);
+      expect(data.map).to.equal(expectedMap);
       done();
     });
   });
