@@ -1,3 +1,6 @@
+# uglify-js-brunch 1.7.1 (27 June 2013)
+* Fixed source maps.
+
 # uglify-js-brunch 1.7.0 (22 June 2013)
 * Added source maps support.
 * Updated to uglify 2.3.
