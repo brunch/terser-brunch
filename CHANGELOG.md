@@ -1,3 +1,6 @@
+# uglify-js-brunch 1.7.2 (15 July 2013)
+* Updated to optimizer API.
+
 # uglify-js-brunch 1.7.1 (27 June 2013)
 * Fixed source maps.
 
