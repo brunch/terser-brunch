@@ -16,7 +16,7 @@ module.exports = class UglifyMinifier
     @options.fromString = yes
     @options.sourceMaps = @config?.sourceMaps
 
-  optimize: (data, path, callback) =>
+  optimize: (data, path, callback) ->
     options = @options
     options.outSourceMap = if options.sourceMaps
       "#{path}.map"
