@@ -1,3 +1,6 @@
+# uglify-js-brunch 1.7.3 (16 October 2013)
+* Fix Function.length bug
+
 # uglify-js-brunch 1.7.2 (15 July 2013)
 * Updated to optimizer API.
 
