@@ -18,7 +18,7 @@ module.exports = class UglifyMinifier
 
   optimize: (data, path, callback) ->
     options = @options
-    options.outSourceMap = if options.sourceMaps
+    options.outSourceMap = if options?.sourceMaps
       "#{path}.map"
     else
       undefined
@@ -28,7 +28,7 @@ module.exports = class UglifyMinifier
     catch err
       error = "JS minify failed on #{path}: #{err}"
     finally
-      result = if optimized and options.sourceMaps
+      result = if optimized and options?.sourceMaps
         data: optimized.code
         map: optimized.map
       else
