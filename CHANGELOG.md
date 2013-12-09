@@ -1,3 +1,6 @@
+# uglify-js-brunch 1.7.4 (9 December 2013)
+* Errors are now properly thrown on invalid javascript code.
+
 # uglify-js-brunch 1.7.3 (16 October 2013)
 * Fix Function.length bug
 
