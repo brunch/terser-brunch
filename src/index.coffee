@@ -11,10 +11,10 @@ module.exports = class UglifyMinifier
   brunchPlugin: yes
   type: 'javascript'
 
-  constructor: (@config) ->
-    @options = (clone @config?.plugins?.uglify) or {}
+  constructor: (config) ->
+    @options = (clone config?.plugins?.uglify) or {}
     @options.fromString = yes
-    @options.sourceMaps = @config?.sourceMaps
+    @options.sourceMaps = config?.sourceMaps
 
   optimize: (data, path, callback) ->
     @options.outSourceMap = if @options.sourceMaps
@@ -27,9 +27,10 @@ module.exports = class UglifyMinifier
     catch err
       error = "JS minify failed on #{path}: #{err}"
     finally
+      return callback error if error
       result = if optimized and @options.sourceMaps
         data: optimized.code
         map: optimized.map
       else
         data: optimized.code
-      callback error, (result or data)
+      callback null, (result or data)

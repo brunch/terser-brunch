@@ -19,7 +19,7 @@ describe('Plugin', function() {
 
     plugin.optimize(content, '', function(error, data) {
       expect(error).not.to.be.ok;
-      expect(data).to.equal(expected);
+      expect(data).to.eql({data: expected});
       done();
     });
   });
@@ -33,7 +33,7 @@ describe('Plugin', function() {
 
     plugin.optimize(content, '', function(error, data) {
       expect(error).not.to.be.ok;
-      expect(data.code).to.equal(expected);
+      expect(data.data).to.equal(expected);
       expect(data.map).to.equal(expectedMap);
       done();
     });
