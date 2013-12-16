@@ -8,13 +8,11 @@
     "type": "git",
     "url": "git@github.com:brunch/uglify-js-brunch.git"
   },
-  "main": "./lib/index",
   "scripts": {
-    "prepublish": "rm -rf lib && coffee --bare --output lib/ src/",
-    "test": "node_modules/.bin/mocha --require test/common.js"
+    "test": "node_modules/.bin/mocha"
   },
   "dependencies": {
-    "uglify-js": "~2.4.6"
+    "uglify-js": "~2.4.7"
   },
   "devDependencies": {
     "mocha": "1.11.0",
