@@ -1,3 +1,6 @@
+# uglify-js-brunch 1.7.5 (18 December 2013)
+* Small change: Changed the name of optimizer class.
+
 # uglify-js-brunch 1.7.4 (9 December 2013)
 * Errors are now properly thrown on invalid javascript code.
 
