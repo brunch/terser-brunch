@@ -17,8 +17,13 @@ function UglifyJSOptimizer(config) {
 UglifyJSOptimizer.prototype.brunchPlugin = true;
 UglifyJSOptimizer.prototype.type = 'javascript';
 
-UglifyJSOptimizer.prototype.optimize = function(data, path, callback) {
-  var error, optimized;
+UglifyJSOptimizer.prototype.optimize = function(args, callback) {
+  var error, optimized, data, path;
+  data = args.data;
+  path = args.path;
+  try {
+    this.options.inSourceMap = JSON.parse(args.map);
+  } catch (_e) {}
   this.options.outSourceMap = this.options.sourceMaps ?
     path + '.map' : void 0;
   try {
