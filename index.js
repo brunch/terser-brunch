@@ -6,7 +6,7 @@ var extend = function(object, source) {
   return object;
 };
 
-function UglifyjsOptimizer(config) {
+function UglifyJSOptimizer(config) {
   if (config == null) config = {};
   var options = config.plugins && config.plugins.uglify;
   this.options = options ? extend({}, options) : {};

@@ -1,3 +1,6 @@
+# uglify-js-brunch 1.7.6 (18 December 2013)
+* Fixed a typo in source code.
+
 # uglify-js-brunch 1.7.5 (18 December 2013)
 * Small change: Changed the name of optimizer class.
 
