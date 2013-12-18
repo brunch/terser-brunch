@@ -5,7 +5,7 @@ describe('Plugin', function() {
   var plugin;
 
   beforeEach(function() {
-    plugin = new Plugin({});
+    plugin = new Plugin(Object.freeze({}));
   });
 
   it('should be an object', function() {
