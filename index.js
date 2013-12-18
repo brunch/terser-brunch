@@ -20,11 +20,11 @@ UglifyJSOptimizer.prototype.type = 'javascript';
 UglifyJSOptimizer.prototype.optimize = function(data, path, callback) {
   var error, optimized;
   this.options.outSourceMap = this.options.sourceMaps ?
-    '' + path + '.map' : void 0;
+    path + '.map' : void 0;
   try {
     optimized = uglify.minify(data, this.options);
   } catch (_error) {
-    error = "JS minification failed on " + path + ": " + _error;
+    error = 'JS minification failed on ' + path + ': ' + _error;
   } finally {
     if (error) return callback(error);
     var result = optimized && this.options.sourceMaps ? {
