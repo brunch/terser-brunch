@@ -20,7 +20,7 @@ describe('Plugin', function() {
     var content = '(function() {var first = 5; window.second = first;})()';
     var expected = '!function(){var n=5;window.second=n}();';
 
-    plugin.optimize(content, '', function(error, data) {
+    plugin.optimize({data: content}, function(error, data) {
       expect(error).not.to.be.ok;
       expect(data).to.eql({data: expected});
       done();
@@ -32,9 +32,9 @@ describe('Plugin', function() {
 
     var content = '(function() {var first = 5; window.second = first;})()';
     var expected = '!function(){var n=5;window.second=n}();';
-    var expectedMap = '{"version":3,"file":".map","sources":["?"],"names":["first","window","second"],"mappings":"CAAA,WAAa,GAAIA,GAAQ,CAAGC,QAAOC,OAASF"}';
+    var expectedMap = '{"version":3,"file":"file.js.map","sources":["?"],"names":["first","window","second"],"mappings":"CAAA,WAAa,GAAIA,GAAQ,CAAGC,QAAOC,OAASF"}';
 
-    plugin.optimize(content, '', function(error, data) {
+    plugin.optimize({data: content, path:'file.js'}, function(error, data) {
       expect(error).not.to.be.ok;
       expect(data.data).to.equal(expected);
       expect(data.map).to.equal(expectedMap);
