@@ -25,6 +25,16 @@ config =
           DEBUG: false
 ```
 
+Joined files can be ignored and be passed-through, using 'ignored' option:
+
+```coffeeescript
+config =
+  plugins:
+    uglify:
+      ignored: /non_minimize\.js/
+
+```
+
 ## License
 
 The MIT License (MIT)

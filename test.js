@@ -41,4 +41,44 @@ describe('Plugin', function() {
       done();
     });
   });
+
+  it('should ignore ignored files', function(done) {
+    plugin = new Plugin({
+      plugins: {
+        uglify: {
+          ignored: /ignoreMe\.js/
+        }
+      }
+    });
+
+    var content = '(function() {var first = 5; window.second = first;})()';
+    var expected = content;
+    var map = 'someDummyMap';
+
+    plugin.optimize({data: content, path: 'ignoreMe.js', map: map}, function(error, data) {
+      expect(error).not.to.be.ok;
+      expect(data).to.eql({data: expected, map: map});
+      done();
+    });
+
+  });
+
+  it('should not ignore non-ignored files', function(done) {
+    plugin = new Plugin({
+      plugins: {
+        uglify: {
+          ignored: /ignoreMe\.js/
+        }
+      }
+    });
+
+    var content = '(function() {var first = 5; window.second = first;})()';
+    var expected = '!function(){var n=5;window.second=n}();';
+
+    plugin.optimize({data: content, path: 'uglifyMe.js'}, function(error, data) {
+      expect(error).not.to.be.ok;
+      expect(data).to.eql({data: expected});
+      done();
+    });
+  });
 });
