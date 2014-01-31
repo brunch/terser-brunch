@@ -2,7 +2,13 @@ var sysPath = require('path');
 var uglify = require('uglify-js');
 
 var extend = function(object, source) {
-  for (var key in source) object[key] = source[key];
+  var value;
+  for (var key in source) {
+    value = source[key];
+    object[key] = (typeof value === 'object') ?
+      (Array.isArray(value) ? value.slice() : extend({}, value)) :
+      value;
+  }
   return object;
 };
 
@@ -21,11 +27,14 @@ UglifyJSOptimizer.prototype.optimize = function(args, callback) {
   var error, optimized, data, path;
   data = args.data;
   path = args.path;
+
   try {
     this.options.inSourceMap = JSON.parse(args.map);
   } catch (_e) {}
+
   this.options.outSourceMap = this.options.sourceMaps ?
-    path + '.map' : void 0;
+    path + '.map' : undefined;
+
   try {
     optimized = uglify.minify(data, this.options);
   } catch (_error) {
@@ -35,9 +44,7 @@ UglifyJSOptimizer.prototype.optimize = function(args, callback) {
     var result = optimized && this.options.sourceMaps ? {
       data: optimized.code,
       map: optimized.map
-    } : {
-      data: optimized.code
-    };
+    } : {data: optimized.code};
     callback(null, result);
   }
 };
