@@ -5,7 +5,7 @@ var extend = function(object, source) {
   var value;
   for (var key in source) {
     value = source[key];
-    object[key] = (typeof value === 'object') ?
+    object[key] = (typeof value === 'object' && !(value instanceof RegExp)) ?
       (Array.isArray(value) ? value.slice() : extend({}, value)) :
       value;
   }
@@ -27,6 +27,20 @@ UglifyJSOptimizer.prototype.optimize = function(args, callback) {
   var error, optimized, data, path;
   data = args.data;
   path = args.path;
+
+  try {
+    if (this.options.ignored && this.options.ignored.test(args.path)) {
+      // ignored file path: return non minified
+      var result = {
+        data: data,
+        // It seems like brunch passes in a SourceMapGenerator object, not a string
+        map: args.map ? args.map.toString() : null
+      };
+      return callback(null, result);
+    }
+  } catch (e) {
+    return callback('error checking ignored files to uglify' + e);
+  }
 
   try {
     this.options.inSourceMap = JSON.parse(args.map);
