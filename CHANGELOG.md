@@ -1,3 +1,6 @@
+# uglify-js-brunch 1.7.7 (26 February 2014)
+* Fixed source map handling
+
 # uglify-js-brunch 1.7.6 (18 December 2013)
 * Fixed a typo in source code.
 
