@@ -46,8 +46,10 @@ UglifyJSOptimizer.prototype.optimize = function(args, callback) {
     this.options.inSourceMap = JSON.parse(args.map);
   } catch (_e) {}
 
-  this.options.outSourceMap = this.options.sourceMaps ?
-    path + '.map' : undefined;
+  if (!("string" == typeof this.options.outSourceMap)) {
+    this.options.outSourceMap = this.options.sourceMaps ?
+      path + '.map' : undefined;
+  }
 
   try {
     optimized = uglify.minify(data, this.options);
