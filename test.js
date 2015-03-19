@@ -31,7 +31,7 @@ describe('Plugin', function() {
     plugin = new Plugin({sourceMaps: true});
 
     var content = '(function() {var first = 5; window.second = first;})()';
-    var expected = '!function(){var n=5;window.second=n}();';
+    var expected = '!function(){var n=5;window.second=n}();\n//# sourceMappingURL=file.js.map';
     var expectedMap = '{"version":3,"file":"file.js.map","sources":["?"],"names":["first","window","second"],"mappings":"CAAA,WAAa,GAAIA,GAAQ,CAAGC,QAAOC,OAASF"}';
 
     plugin.optimize({data: content, path:'file.js'}, function(error, data) {
