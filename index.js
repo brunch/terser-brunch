@@ -59,6 +59,7 @@ UglifyJSOptimizer.prototype.optimize = function(args, callback) {
       data: optimized.code,
       map: optimized.map
     } : {data: optimized.code};
+    result.data = result.data.replace(/\n\/\/# sourceMappingURL=\S+$/, '');
     callback(null, result);
   }
 };
