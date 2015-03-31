@@ -1,3 +1,6 @@
+# uglify-js-brunch 1.7.8 (31 March 2015)
+* Remove Uglify's sourceMappingURL annotation which confliced with Brunch's
+
 # uglify-js-brunch 1.7.7 (26 February 2014)
 * Fixed source map handling
 
