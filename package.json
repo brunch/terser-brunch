@@ -13,7 +13,7 @@
     "test": "node_modules/.bin/eslint index.js && node_modules/.bin/mocha"
   },
   "dependencies": {
-    "uglify-js": "~2.4.7"
+    "uglify-js": "~2.6.1"
   },
   "devDependencies": {
     "mocha": "~1.17.1",

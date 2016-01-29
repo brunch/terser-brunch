@@ -37,7 +37,7 @@ describe('Plugin', function() {
       expect(data.data).to.equal(expected);
       expect(data.map).to.equal(expectedMap);
       done();
-    }, error => expect(error).not.to.be.ok);
+    }, error => expect(error).not.to.be.ok, done());
   });
 
   it('should ignore ignored files', function(done) {
