@@ -11,9 +11,9 @@ class UglifyJSOptimizer {
   }
 
   optimize(args) {
-    let error, optimized, data, path;
-    data = args.data;
-    path = args.path;
+    let error, optimized;
+    const data = args.data;
+    const path = args.path;
 
     try {
       if (this.options.ignored && this.options.ignored.test(args.path)) {
