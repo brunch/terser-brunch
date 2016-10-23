@@ -10,18 +10,18 @@ class UglifyJSOptimizer {
     this.options.sourceMaps = !!config.sourceMaps;
   }
 
-  optimize(args) {
+  optimize(file) {
     let error, optimized;
-    const data = args.data;
-    const path = args.path;
+    const data = file.data;
+    const path = file.path;
 
     try {
-      if (this.options.ignored && this.options.ignored.test(args.path)) {
+      if (this.options.ignored && this.options.ignored.test(file.path)) {
         // ignored file path: return non minified
         const result = {
           data: data,
           // It seems like brunch passes in a SourceMapGenerator object, not a string
-          map: args.map ? args.map.toString() : null
+          map: file.map ? file.map.toString() : null
         };
         return Promise.resolve(result);
       }
@@ -30,7 +30,7 @@ class UglifyJSOptimizer {
     }
 
     try {
-      this.options.inSourceMap = JSON.parse(args.map);
+      this.options.inSourceMap = JSON.parse(file.map);
     } catch (_e) {} //eslint-disable-line no-empty
 
     this.options.outSourceMap = this.options.sourceMaps ?
