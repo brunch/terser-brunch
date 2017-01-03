@@ -1,45 +1,55 @@
-## uglify-js-brunch
+# uglify-js-brunch
+
 Adds [UglifyJS](https://github.com/mishoo/UglifyJS2) support to
 [brunch](http://brunch.io).
 
 The plugin will minify your javascript files.
 
 ## Usage
+
 Install the plugin via npm with `npm install --save-dev uglify-js-brunch`.
 
 Or, do manual install:
 
-* Add `"uglify-js-brunch": "x.y.z"` to `package.json` of your brunch app.
-  Pick a plugin version that corresponds to your minor (y) brunch version.
+* Add `"uglify-js-brunch": "x.y.z"` to `package.json` of your brunch app. Pick a plugin version that corresponds to your minor (y) brunch version.
 * If you want to use git version of plugin, add
 `"uglify-js-brunch": "git+ssh://git@github.com:brunch/uglify-js-brunch.git"`.
 
-To specify uglifyjs options, use `config.plugins.uglify` object, for example:
-```coffeescript
-config =
-  plugins:
-    uglify:
-      mangle: false
-      compress:
-        global_defs: 
+To specify UglifyJS options, use `config.plugins.uglify` object, for example:
+
+```js
+module.exports = {
+  // ...
+  plugins: {
+    uglify: {
+      mangle: false,
+      compress: {
+        global_defs: {
           DEBUG: false
+        }
+      }
+    }
+  }
+};
 ```
 
 Joined files can be ignored and be passed-through, using 'ignored' option:
 
-```coffeeescript
-config =
-  plugins:
-    uglify:
+```js
+module.exports = {
+  plugins: {
+    uglify: {
       ignored: /non_minimize\.js/
-
+    }
+  }
+};
 ```
 
 ## License
 
 The MIT License (MIT)
 
-Copyright (c) 2012-2014 Paul Miller (http://paulmillr.com)
+Copyright (c) 2012-2017 Paul Miller (http://paulmillr.com)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
