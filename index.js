@@ -19,34 +19,36 @@ class UglifyJSOptimizer {
       if (this.options.ignored && this.options.ignored.test(file.path)) {
         // ignored file path: return non minified
         const result = {
-          data: data,
+          data,
           // It seems like brunch passes in a SourceMapGenerator object, not a string
-          map: file.map ? file.map.toString() : null
+          map: file.map ? file.map.toString() : null,
         };
         return Promise.resolve(result);
       }
     } catch (e) {
-      return Promise.reject('error checking ignored files to uglify' + e);
+      return Promise.reject(`error checking ignored files to uglify ${e}`);
     }
 
     try {
       this.options.inSourceMap = JSON.parse(file.map);
-    } catch (_e) {} //eslint-disable-line no-empty
+    } catch (_e) {} // eslint-disable-line no-empty
 
     this.options.outSourceMap = this.options.sourceMaps ?
-      path + '.map' : undefined;
+      `${path}.map` : undefined;
 
     try {
       optimized = uglify.minify(data, this.options);
     } catch (_error) {
-      error = 'JS minification failed on ' + path + ': ' + _error;
+      error = `JS minification failed on ${path}: ${_error}`;
     } finally {
+      // eslint-disable-next-line no-unsafe-finally
       if (error) return Promise.reject(error);
       const result = optimized && this.options.sourceMaps ? {
         data: optimized.code,
-        map: optimized.map
+        map: optimized.map,
       } : {data: optimized.code};
       result.data = result.data.replace(/\n\/\/# sourceMappingURL=\S+$/, '');
+      // eslint-disable-next-line no-unsafe-finally
       return Promise.resolve(result);
     }
   }
