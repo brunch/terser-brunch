@@ -11,7 +11,6 @@ class UglifyJSOptimizer {
   }
 
   optimize(file) {
-    let error, optimized;
     const data = file.data;
     const path = file.path;
 
@@ -31,25 +30,25 @@ class UglifyJSOptimizer {
 
     try {
       this.options.inSourceMap = JSON.parse(file.map);
-    } catch (_e) {} // eslint-disable-line no-empty
+    } catch (e) {} // eslint-disable-line no-empty
 
     this.options.outSourceMap = this.options.sourceMaps ?
       `${path}.map` : undefined;
 
     try {
-      optimized = uglify.minify(data, this.options);
-    } catch (_error) {
-      error = `JS minification failed on ${path}: ${_error}`;
-    } finally {
-      // eslint-disable-next-line no-unsafe-finally
-      if (error) return Promise.reject(error);
+      const optimized = uglify.minify(data, this.options);
+
       const result = optimized && this.options.sourceMaps ? {
         data: optimized.code,
         map: optimized.map,
-      } : {data: optimized.code};
+      } : {
+        data: optimized.code,
+      };
       result.data = result.data.replace(/\n\/\/# sourceMappingURL=\S+$/, '');
-      // eslint-disable-next-line no-unsafe-finally
+
       return Promise.resolve(result);
+    } catch (err) {
+      return Promise.reject(`JS minification failed on ${path}: ${err}`);
     }
   }
 }
