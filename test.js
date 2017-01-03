@@ -1,80 +1,89 @@
-var expect = require('chai').expect;
-var Plugin = require('./');
+/* eslint no-undef: 0 */
+'use strict';
 
-describe('Plugin', function() {
-  var plugin;
+const expect = require('chai').expect;
+const Plugin = require('./');
 
-  beforeEach(function() {
+describe('Plugin', () => {
+  let plugin;
+
+  beforeEach(() => {
     plugin = new Plugin(Object.freeze({}));
   });
 
-  it('should be an object', function() {
-    expect(plugin).to.be.ok;
-  });
+  it('should be an object', () => expect(plugin).to.be.ok);
 
-  it('should has #optimize method', function() {
+  it('should has #optimize method', () => {
     expect(plugin.optimize).to.be.an.instanceof(Function);
   });
 
-  it('should compile and produce valid result', function(done) {
-    var content = '(function() {var first = 5; window.second = first;})()';
-    var expected = '!function(){var n=5;window.second=n}();';
+  it('should compile and produce valid result', done => {
+    const content = '(function() {var first = 5; window.second = first;})()';
+    const expected = '!function(){var n=5;window.second=n}();';
 
-    plugin.optimize({data: content}).then(data => {
-      expect(data).to.eql({data: expected});
-      done();
-    }, error => expect(error).not.to.be.ok);
+    plugin.optimize({data: content})
+      .then(data => {
+        expect(data).to.eql({data: expected});
+        done();
+      })
+      .catch(error => expect(error).not.to.be.ok);
   });
 
-  it('should produce source maps', function(done) {
+  it('should produce source maps', done => {
     plugin = new Plugin({sourceMaps: true});
 
-    var content = '(function() {var first = 5; window.second = first;})()';
-    var expected = '!function(){var n=5;window.second=n}();';
-    var expectedMap = '{"version":3,"file":"file.js.map","sources":["?"],"names":["first","window","second"],"mappings":"CAAA,WAAa,GAAIA,GAAQ,CAAGC,QAAOC,OAASF"}';
+    const content = '(function() {var first = 5; window.second = first;})()';
+    const expected = '!function(){var n=5;window.second=n}();';
+    const expectedMap = '{"version":3,"file":"file.js.map","sources":["?"],"names":["first","window","second"],"mappings":"CAAA,WAAa,GAAIA,GAAQ,CAAGC,QAAOC,OAASF"}';
 
-    plugin.optimize({data: content, path:'file.js'}).then(data => {
-      expect(data.data).to.equal(expected);
-      expect(data.map).to.equal(expectedMap);
-      done();
-    }, error => expect(error).not.to.be.ok, done());
+    plugin.optimize({data: content, path: 'file.js'})
+      .then(data => {
+        expect(data.data).to.equal(expected);
+        expect(data.map).to.equal(expectedMap);
+        done();
+      })
+      .catch(error => expect(error).not.to.be.ok, done());
   });
 
-  it('should ignore ignored files', function(done) {
+  it('should ignore ignored files', done => {
     plugin = new Plugin({
       plugins: {
         uglify: {
-          ignored: /ignoreMe\.js/
-        }
-      }
+          ignored: /ignoreMe\.js/,
+        },
+      },
     });
 
-    var content = '(function() {var first = 5; window.second = first;})()';
-    var expected = content;
-    var map = 'someDummyMap';
+    const content = '(function() {var first = 5; window.second = first;})()';
+    const expected = content;
+    const map = 'someDummyMap';
 
-    plugin.optimize({data: content, path: 'ignoreMe.js', map: map}).then(data => {
-      expect(data).to.eql({data: expected, map: map});
-      done();
-    }, error => expect(error).not.to.be.ok);
+    plugin.optimize({data: content, path: 'ignoreMe.js', map})
+      .then(data => {
+        expect(data).to.eql({data: expected, map});
+        done();
+      })
+      .catch(error => expect(error).not.to.be.ok);
 
   });
 
-  it('should not ignore non-ignored files', function(done) {
+  it('should not ignore non-ignored files', done => {
     plugin = new Plugin({
       plugins: {
         uglify: {
-          ignored: /ignoreMe\.js/
-        }
-      }
+          ignored: /ignoreMe\.js/,
+        },
+      },
     });
 
-    var content = '(function() {var first = 5; window.second = first;})()';
-    var expected = '!function(){var n=5;window.second=n}();';
+    const content = '(function() {var first = 5; window.second = first;})()';
+    const expected = '!function(){var n=5;window.second=n}();';
 
-    plugin.optimize({data: content, path: 'uglifyMe.js'}).then(data => {
-      expect(data).to.eql({data: expected});
-      done();
-    }, error => expect(error).not.to.be.ok);
+    plugin.optimize({data: content, path: 'uglifyMe.js'})
+      .then(data => {
+        expect(data).to.eql({data: expected});
+        done();
+      })
+      .catch(error => expect(error).not.to.be.ok);
   });
 });
