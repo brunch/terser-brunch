@@ -16,9 +16,12 @@
     "uglify-js": "~2.6.1"
   },
   "devDependencies": {
-    "mocha": "~1.17.1",
     "chai": "~1.9.0",
-    "eslint": "^2.1.0",
-    "eslint-config-brunch": "brunch/eslint-config-brunch"
+    "eslint": "^3.12.2",
+    "eslint-config-brunch": "brunch/eslint-config-brunch",
+    "mocha": "~1.17.1"
+  },
+  "eslintConfig": {
+    "extends": "brunch"
   }
 }
