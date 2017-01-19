@@ -4,8 +4,7 @@ const uglify = require('uglify-js');
 
 class UglifyJSOptimizer {
   constructor(config) {
-    if (config == null) config = {};
-    this.options = Object.assign({}, config.plugins && config.plugins.uglify || {});
+    this.options = Object.assign({}, config.plugins.uglify);
     this.options.fromString = true;
     this.options.sourceMaps = !!config.sourceMaps;
   }
