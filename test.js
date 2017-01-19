@@ -8,7 +8,9 @@ describe('Plugin', () => {
   let plugin;
 
   beforeEach(() => {
-    plugin = new Plugin(Object.freeze({}));
+    plugin = new Plugin(Object.freeze({
+      plugins: {},
+    }));
   });
 
   it('should be an object', () => expect(plugin).to.be.ok);
