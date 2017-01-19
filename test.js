@@ -2,9 +2,9 @@
 'use strict';
 
 const expect = require('chai').expect;
-const Plugin = require('./');
+const Plugin = require('.');
 
-describe('Plugin', () => {
+describe('uglify-js-brunch', () => {
   let plugin;
 
   beforeEach(() => {
@@ -13,41 +13,35 @@ describe('Plugin', () => {
     }));
   });
 
-  it('should be an object', () => expect(plugin).to.be.ok);
-
-  it('should has #optimize method', () => {
-    expect(plugin.optimize).to.be.an.instanceof(Function);
+  it('should have #optimize method', () => {
+    expect(plugin).to.respondTo('optimize');
   });
 
-  it('should compile and produce valid result', done => {
+  it('should compile and produce valid result', () => {
     const content = '(function() {var first = 5; window.second = first;})()';
     const expected = '!function(){var n=5;window.second=n}();';
 
-    plugin.optimize({data: content})
+    return plugin.optimize({data: content})
       .then(data => {
         expect(data).to.eql({data: expected});
-        done();
-      })
-      .catch(error => expect(error).not.to.be.ok);
+      });
   });
 
-  it('should produce source maps', done => {
-    plugin = new Plugin({sourceMaps: true});
+  it('should produce source maps', () => {
+    plugin = new Plugin({plugins: {}, sourceMaps: true});
 
     const content = '(function() {var first = 5; window.second = first;})()';
     const expected = '!function(){var n=5;window.second=n}();';
     const expectedMap = '{"version":3,"file":"file.js.map","sources":["?"],"names":["first","window","second"],"mappings":"CAAA,WAAa,GAAIA,GAAQ,CAAGC,QAAOC,OAASF"}';
 
-    plugin.optimize({data: content, path: 'file.js'})
+    return plugin.optimize({data: content, path: 'file.js'})
       .then(data => {
         expect(data.data).to.equal(expected);
         expect(data.map).to.equal(expectedMap);
-        done();
-      })
-      .catch(error => expect(error).not.to.be.ok, done());
+      });
   });
 
-  it('should ignore ignored files', done => {
+  it('should ignore ignored files', () => {
     plugin = new Plugin({
       plugins: {
         uglify: {
@@ -60,16 +54,13 @@ describe('Plugin', () => {
     const expected = content;
     const map = 'someDummyMap';
 
-    plugin.optimize({data: content, path: 'ignoreMe.js', map})
+    return plugin.optimize({data: content, path: 'ignoreMe.js', map})
       .then(data => {
         expect(data).to.eql({data: expected, map});
-        done();
-      })
-      .catch(error => expect(error).not.to.be.ok);
-
+      });
   });
 
-  it('should not ignore non-ignored files', done => {
+  it('should not ignore non-ignored files', () => {
     plugin = new Plugin({
       plugins: {
         uglify: {
@@ -81,11 +72,9 @@ describe('Plugin', () => {
     const content = '(function() {var first = 5; window.second = first;})()';
     const expected = '!function(){var n=5;window.second=n}();';
 
-    plugin.optimize({data: content, path: 'uglifyMe.js'})
+    return plugin.optimize({data: content, path: 'uglifyMe.js'})
       .then(data => {
         expect(data).to.eql({data: expected});
-        done();
-      })
-      .catch(error => expect(error).not.to.be.ok);
+      });
   });
 });
