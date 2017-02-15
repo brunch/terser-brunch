@@ -2,6 +2,13 @@
 
 const uglify = require('uglify-js');
 
+const formatError = (error) => {
+  const err = new Error(`L${error.line}:${error.col} ${error.message}`);
+  err.name = '';
+  err.stack = error.stack;
+  return err;
+};
+
 class UglifyJSOptimizer {
   constructor(config) {
     this.options = Object.assign({}, config.plugins.uglify);
@@ -47,7 +54,7 @@ class UglifyJSOptimizer {
 
       return Promise.resolve(result);
     } catch (err) {
-      return Promise.reject(`JS minification failed on ${path}: ${err}`);
+      return Promise.reject(formatError(err));
     }
   }
 }
