@@ -15,7 +15,7 @@ Or, do manual install:
 * If you want to use git version of plugin, add
 `"uglify-js-brunch": "git+ssh://git@github.com:brunch/uglify-js-brunch.git"`.
 
-To specify UglifyJS options, use `config.plugins.uglify` object, for example:
+To specify [UglifyJS options](https://github.com/mishoo/UglifyJS2#api-reference), use `config.plugins.uglify` object, for example:
 
 ```js
 module.exports = {
