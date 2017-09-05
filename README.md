@@ -1,9 +1,9 @@
 # uglify-js-brunch
 
 Adds [UglifyJS](https://github.com/mishoo/UglifyJS2) support to
-[brunch](http://brunch.io).
+[Brunch](http://brunch.io).
 
-The plugin will minify your javascript files.
+The plugin will minify your JavaScript files.
 
 ## Usage
 
@@ -39,7 +39,7 @@ Joined files can be ignored and be passed-through, using 'ignored' option:
 module.exports = {
   plugins: {
     uglify: {
-      ignored: /non_minimize\.js/
+      ignored: /dont-minimize\.js/
     }
   }
 };

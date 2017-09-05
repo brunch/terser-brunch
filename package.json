@@ -1,7 +1,7 @@
 {
   "name": "uglify-js-brunch",
   "version": "2.10.0",
-  "description": "Adds Uglify minifying support to brunch.",
+  "description": "Adds Uglify minifying support to Brunch.",
   "author": "Paul Miller (http://paulmillr.com/)",
   "homepage": "https://github.com/brunch/uglify-js-brunch",
   "keywords": [
