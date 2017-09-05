@@ -4,22 +4,25 @@
   "description": "Adds Uglify minifying support to brunch.",
   "author": "Paul Miller (http://paulmillr.com/)",
   "homepage": "https://github.com/brunch/uglify-js-brunch",
-  "keywords": ["brunchplugin", "uglify", "uglify-js", "optimizer"],
-  "repository": {
-    "type": "git",
-    "url": "git@github.com:brunch/uglify-js-brunch.git"
-  },
+  "keywords": [
+    "brunch-plugin",
+    "uglify",
+    "uglify-js",
+    "optimizer"
+  ],
+  "repository": "brunch/uglify-js-brunch",
   "scripts": {
-    "test": "eslint index.js && mocha"
+    "test": "eslint . && mocha"
   },
   "dependencies": {
-    "uglify-js": "~2.6.1"
+    "uglify-js": "^3"
   },
   "devDependencies": {
-    "chai": "~1.9.0",
-    "eslint": "^3.12.2",
+    "anymatch": "^1",
+    "chai": "^4",
+    "eslint": "^4",
     "eslint-config-brunch": "^1",
-    "mocha": "~1.17.1"
+    "mocha": "^3"
   },
   "eslintConfig": {
     "extends": "brunch"
