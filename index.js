@@ -1,5 +1,5 @@
 'use strict';
-const uglify = require('uglify-js');
+const uglify = require('uglify-es');
 const anymatch = require('anymatch');
 
 const formatError = old => {
