@@ -1,9 +1,8 @@
 # uglify-js-brunch
 
-Adds [UglifyJS](https://github.com/mishoo/UglifyJS2) support to
-[Brunch](http://brunch.io).
+Adds [UglifyJS](https://github.com/mishoo/UglifyJS2) support to [Brunch](http://brunch.io).
 
-The plugin will minify your JavaScript files.
+The plugin will minify your JavaScript files. Supports modern language features.
 
 ## Usage
 
@@ -15,7 +14,7 @@ Or, do manual install:
 * If you want to use git version of plugin, add
 `"uglify-js-brunch": "git+ssh://git@github.com:brunch/uglify-js-brunch.git"`.
 
-To specify [UglifyJS options](https://github.com/mishoo/UglifyJS2#api-reference), use `config.plugins.uglify` object, for example:
+To specify [UglifyJS options](https://github.com/mishoo/UglifyJS2/tree/harmony#api-reference), use `config.plugins.uglify` object, for example:
 
 ```js
 module.exports = {

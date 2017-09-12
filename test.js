@@ -61,7 +61,6 @@ describe('uglify-js-brunch', () => {
     // eslint-disable-next-line no-eval
     return eval(code).then(res => {
       res.should.be.an('array');
-
       res[0].should.equal('4242424242424242');
       res[1].s.should.be.a('symbol');
     });
