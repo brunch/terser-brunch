@@ -7,6 +7,9 @@ const path = 'file.js';
 const data = '(function() {var first = 5; window.second = first;})()';
 const uglified = 'window.second=5;';
 const modern = `
+  // All credits to Netflix for providing this approach to ES6 feature detection.
+  /* https://gist.github.com/DaBs/89ccc2ffd1d435efdacff05248514f38 */
+
   class ಠ_ಠ extends Array {
     constructor(j = "a", ...c) {
       const q = (({u: e}) => {
