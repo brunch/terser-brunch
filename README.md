@@ -1,46 +1,42 @@
-# uglify-js-brunch
+# terser-brunch
 
-Adds [UglifyJS](https://github.com/mishoo/UglifyJS2) support to [Brunch](http://brunch.io).
+Adds [Terser](https://github.com/terser-js/terser) support to [Brunch](http://brunch.io).
 
 The plugin will minify your JavaScript files. Supports modern language features.
 
+Previously known as `uglify-js-brunch`.
+
 ## Usage
 
-Install the plugin via npm with `npm install --save-dev uglify-js-brunch`.
+Install the plugin via npm with `npm install --save-dev terser-brunch`.
 
-Or, do manual install:
-
-* Add `"uglify-js-brunch": "x.y.z"` to `package.json` of your brunch app. Pick a plugin version that corresponds to your minor (y) brunch version.
-* If you want to use git version of plugin, add
-`"uglify-js-brunch": "git+ssh://git@github.com:brunch/uglify-js-brunch.git"`.
-
-To specify [UglifyJS options](https://github.com/mishoo/UglifyJS2/tree/harmony#api-reference), use `config.plugins.uglify` object, for example:
+To specify [Terser options](https://github.com/terser-js/terser#minify-options), use `config.plugins.terser` object, for example:
 
 ```js
 module.exports = {
   // ...
   plugins: {
-    uglify: {
+    terser: {
       mangle: false,
       compress: {
         global_defs: {
-          DEBUG: false
-        }
-      }
-    }
-  }
+          DEBUG: false,
+        },
+      },
+    },
+  },
 };
 ```
 
-Joined files can be ignored and be passed-through, using 'ignored' option:
+Joined files can be ignored and be passed-through, using `ignored` option:
 
 ```js
 module.exports = {
   plugins: {
-    uglify: {
-      ignored: /dont-minimize\.js/
-    }
-  }
+    terser: {
+      ignored: /dont-minimize\.js/,
+    },
+  },
 };
 ```
 
