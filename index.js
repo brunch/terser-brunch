@@ -1,33 +1,32 @@
 'use strict';
-const uglify = require('uglify-es');
+const { minify } = require('terser');
 const anymatch = require('anymatch');
 
-const formatError = old => {
-  const err = new Error(`L${old.line}:${old.col} ${old.message}`);
-  err.name = '';
-  err.stack = old.stack;
+const formatError = err => {
+  err.message = `L${err.line}:${err.col} ${err.message}`;
   return err;
 };
 
-class UglifyJSOptimizer {
+class TerserOptimizer {
   constructor(config) {
-    this.options = Object.assign({
-      sourceMap: !!config.sourceMaps,
-    }, config.plugins.uglify);
+    const {ignored, ...options} = config.plugins.terser || {};
 
-    this.ignored = anymatch(this.options.ignored);
-    delete this.options.ignored;
+    this.isIgnored = anymatch(ignored);
+    this.options = {
+      sourceMap: !!config.sourceMaps,
+      ...options,
+    };
   }
 
   optimize(file) {
-    if (this.ignored(file.path)) {
+    if (this.isIgnored(file.path)) {
       return {
         data: file.data,
         map: file.map && `${file.map}`,
       };
     }
 
-    const options = Object.assign({}, this.options);
+    const options = {...this.options};
     if (file.map) {
       options.sourceMap = {
         content: JSON.stringify(file.map),
@@ -35,7 +34,7 @@ class UglifyJSOptimizer {
       };
     }
 
-    const res = uglify.minify(file.data, options);
+    const res = minify(file.data, options);
     if (res.error) throw formatError(res.error);
     if (!res.map) return {data: res.code};
 
@@ -46,7 +45,7 @@ class UglifyJSOptimizer {
   }
 }
 
-UglifyJSOptimizer.prototype.brunchPlugin = true;
-UglifyJSOptimizer.prototype.type = 'javascript';
+TerserOptimizer.prototype.brunchPlugin = true;
+TerserOptimizer.prototype.type = 'javascript';
 
-module.exports = UglifyJSOptimizer;
+module.exports = TerserOptimizer;
