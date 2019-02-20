@@ -1,6 +1,2 @@
-*~
-*.bak
-.DS_Store
-npm-debug.log
+.travis.yml
 test.js
-CHANGELOG.md
