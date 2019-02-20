@@ -1,7 +1,11 @@
-/* eslint-env mocha */
 'use strict';
-require('chai/register-should');
-const Plugin = require('.');
+const TerserOptimizer = require('.');
+const createPlugin = config => {
+  return new TerserOptimizer({
+    plugins: {},
+    ...config,
+  });
+};
 
 const path = 'file.js';
 const data = '(function() {var first = 5; window.second = first;})()';
@@ -41,38 +45,27 @@ const modern = `
   }).then(bi => new ಠ_ಠ(bi.rd));
 `;
 
-describe('uglify-js-brunch', () => {
-  let plugin;
-
-  beforeEach(() => {
-    plugin = new Plugin({
-      plugins: {},
-    });
-  });
-
-  it('should have #optimize method', () => {
-    plugin.should.respondTo('optimize');
+describe('terser-brunch', () => {
+  it('should have `optimize` method', () => {
+    createPlugin().should.respondTo('optimize');
   });
 
   it('should compile and produce valid result', () => {
-    plugin.optimize({data, path}).should.eql({data: uglified});
+    createPlugin().optimize({data, path}).should.eql({data: uglified});
   });
 
-  it('should optimize modern JavaScript', () => {
-    const code = plugin.optimize({data: modern, path}).data;
+  it('should optimize modern JavaScript', async () => {
+    const {data} = createPlugin().optimize({data: modern, path});
+    const arr = await eval(data);
 
-    // eslint-disable-next-line no-eval
-    return eval(code).then(res => {
-      res.should.be.an('array');
-      res[0].should.equal('4242424242424242');
-      res[1].s.should.be.a('symbol');
-    });
+    arr.should.be.an('array');
+    arr[0].should.equal('4242424242424242');
+    arr[1].s.should.be.a('symbol');
   });
 
   it('should produce source maps', () => {
-    plugin = new Plugin({
+    const plugin = createPlugin({
       sourceMaps: true,
-      plugins: {},
     });
 
     plugin.optimize({data, path}).should.eql({
@@ -85,28 +78,26 @@ describe('uglify-js-brunch', () => {
     const path = 'ignored.js';
     const map = '{"version": 3}';
 
-    plugin = new Plugin({
+    const plugin = createPlugin({
       plugins: {
-        uglify: {
+        terser: {
           ignored: path,
         },
       },
     });
 
-    plugin.optimize({data, path, map})
-      .should.eql({data, map});
+    plugin.optimize({data, path, map}).should.eql({data, map});
   });
 
   it('should match ignored files correctly', () => {
-    plugin = new Plugin({
+    const plugin = createPlugin({
       plugins: {
-        uglify: {
+        terser: {
           ignored: 'ignored.js',
         },
       },
     });
 
-    plugin.optimize({data, path: 'file.js'})
-      .should.eql({data: uglified});
+    plugin.optimize({data, path: 'file.js'}).should.eql({data: uglified});
   });
 });
