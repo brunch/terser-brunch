@@ -1,30 +1,31 @@
 {
-  "name": "uglify-js-brunch",
-  "version": "2.10.0",
-  "description": "Adds Uglify minifying support to Brunch.",
-  "author": "Paul Miller (http://paulmillr.com/)",
-  "homepage": "https://github.com/brunch/uglify-js-brunch",
+  "name": "terser-brunch",
+  "version": "3.0.0",
+  "description": "Adds Terser mangler/compressor support to Brunch",
   "keywords": [
     "brunch-plugin",
+    "terser",
     "uglify",
-    "uglify-js",
+    "minifier",
     "optimizer"
   ],
-  "repository": "brunch/uglify-js-brunch",
+  "homepage": "https://github.com/brunch/terser-brunch",
+  "bugs": "https://github.com/brunch/terser-brunch/issues",
+  "license": "MIT",
+  "author": "Paul Miller (http://paulmillr.com)",
+  "repository": "brunch/terser-brunch",
   "scripts": {
-    "test": "eslint . && mocha"
+    "test": "mocha -r chai/register-should test"
   },
   "dependencies": {
-    "uglify-es": "^3"
+    "terser": "^3",
+    "anymatch": "^2"
   },
   "devDependencies": {
-    "anymatch": "^1",
     "chai": "^4",
-    "eslint": "^4",
-    "eslint-config-brunch": "^1",
-    "mocha": "^3"
+    "mocha": "^6"
   },
-  "eslintConfig": {
-    "extends": "brunch"
+  "peerDependencies": {
+    "brunch": "^2"
   }
 }
