@@ -1,5 +1,5 @@
 'use strict';
-const { minify } = require('terser');
+const {minify} = require('terser');
 const anymatch = require('anymatch');
 
 const formatError = err => {
