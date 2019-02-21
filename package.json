@@ -1,5 +1,5 @@
 {
-  "name": "uglify-js-brunch",
+  "name": "terser-brunch",
   "version": "3.0.0",
   "description": "Adds Terser mangler/compressor support to Brunch",
   "keywords": [
