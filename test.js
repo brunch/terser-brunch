@@ -1,80 +1,103 @@
-/* eslint no-undef: 0 */
 'use strict';
-
-const expect = require('chai').expect;
-const Plugin = require('.');
-
-describe('uglify-js-brunch', () => {
-  let plugin;
-
-  beforeEach(() => {
-    plugin = new Plugin(Object.freeze({
-      plugins: {},
-    }));
+const TerserOptimizer = require('.');
+const createPlugin = config => {
+  return new TerserOptimizer({
+    plugins: {},
+    ...config,
   });
+};
 
-  it('should have #optimize method', () => {
-    expect(plugin).to.respondTo('optimize');
+const path = 'file.js';
+const data = '(function() {var first = 5; window.second = first;})()';
+const uglified = 'window.second=5;';
+const modern = `
+  // All credits to Netflix for providing this approach to ES6 feature detection.
+  /* https://gist.github.com/DaBs/89ccc2ffd1d435efdacff05248514f38 */
+
+  class ಠ_ಠ extends Array {
+    constructor(j = "a", ...c) {
+      const q = (({u: e}) => {
+        return { [\`s\${c}\`]: Symbol(j) };
+      })({});
+
+      super(j, q, ...c);
+    }
+  }
+
+  new Promise((f) => {
+    const a = function* (){
+      return "\u{20BB7}".match(/./u)[0].length === 2 || true;
+    };
+
+    for (let vre of a()) {
+      const [uw, as, he, re] = [
+        new Set(),
+        new WeakSet(),
+        new Map(),
+        new WeakMap(),
+      ];
+      break;
+    }
+
+    f(new Proxy({}, {
+      get: (han, h) => h in han ? han[h] : "42".repeat(0o10)
+    }),);
+  }).then(bi => new ಠ_ಠ(bi.rd));
+`;
+
+describe('terser-brunch', () => {
+  it('should have `optimize` method', () => {
+    createPlugin().should.respondTo('optimize');
   });
 
   it('should compile and produce valid result', () => {
-    const content = '(function() {var first = 5; window.second = first;})()';
-    const expected = '!function(){var n=5;window.second=n}();';
+    createPlugin().optimize({data, path}).should.eql({data: uglified});
+  });
 
-    return plugin.optimize({data: content})
-      .then(data => {
-        expect(data).to.eql({data: expected});
-      });
+  it('should optimize modern JavaScript', async () => {
+    const {data} = createPlugin().optimize({data: modern, path});
+    const arr = await eval(data);
+
+    arr.should.be.an('array');
+    arr[0].should.equal('4242424242424242');
+    arr[1].s.should.be.a('symbol');
   });
 
   it('should produce source maps', () => {
-    plugin = new Plugin({plugins: {}, sourceMaps: true});
+    const plugin = createPlugin({
+      sourceMaps: true,
+    });
 
-    const content = '(function() {var first = 5; window.second = first;})()';
-    const expected = '!function(){var n=5;window.second=n}();';
-    const expectedMap = '{"version":3,"file":"file.js.map","sources":["?"],"names":["first","window","second"],"mappings":"CAAA,WAAa,GAAIA,GAAQ,CAAGC,QAAOC,OAASF"}';
-
-    return plugin.optimize({data: content, path: 'file.js'})
-      .then(data => {
-        expect(data.data).to.equal(expected);
-        expect(data.map).to.equal(expectedMap);
-      });
+    plugin.optimize({data, path}).should.eql({
+      data: uglified,
+      map: '{"version":3,"sources":["0"],"names":["window","second"],"mappings":"AAA4BA,OAAOC,OAAV"}',
+    });
   });
 
-  it('should ignore ignored files', () => {
-    plugin = new Plugin({
+  it('should return ignored files as-is', () => {
+    const path = 'ignored.js';
+    const map = '{"version": 3}';
+
+    const plugin = createPlugin({
       plugins: {
-        uglify: {
-          ignored: /ignoreMe\.js/,
+        terser: {
+          ignored: path,
         },
       },
     });
 
-    const content = '(function() {var first = 5; window.second = first;})()';
-    const expected = content;
-    const map = 'someDummyMap';
-
-    return plugin.optimize({data: content, path: 'ignoreMe.js', map})
-      .then(data => {
-        expect(data).to.eql({data: expected, map});
-      });
+    plugin.optimize({data, path, map}).should.eql({data, map});
   });
 
-  it('should not ignore non-ignored files', () => {
-    plugin = new Plugin({
+  it('should match ignored files correctly', () => {
+    const plugin = createPlugin({
       plugins: {
-        uglify: {
-          ignored: /ignoreMe\.js/,
+        terser: {
+          ignored: 'ignored.js',
         },
       },
     });
 
-    const content = '(function() {var first = 5; window.second = first;})()';
-    const expected = '!function(){var n=5;window.second=n}();';
-
-    return plugin.optimize({data: content, path: 'uglifyMe.js'})
-      .then(data => {
-        expect(data).to.eql({data: expected});
-      });
+    plugin.optimize({data, path: 'file.js'}).should.eql({data: uglified});
   });
 });

@@ -1,65 +1,51 @@
 'use strict';
+const {minify} = require('terser');
+const anymatch = require('anymatch');
 
-const uglify = require('uglify-js');
-
-const formatError = (error) => {
-  const err = new Error(`L${error.line}:${error.col} ${error.message}`);
-  err.name = '';
-  err.stack = error.stack;
+const formatError = err => {
+  err.message = `L${err.line}:${err.col} ${err.message}`;
   return err;
 };
 
-class UglifyJSOptimizer {
+class TerserOptimizer {
   constructor(config) {
-    this.options = Object.assign({}, config.plugins.uglify);
-    this.options.fromString = true;
-    this.options.sourceMaps = !!config.sourceMaps;
+    const {ignored, ...options} = config.plugins.terser || {};
+
+    this.isIgnored = anymatch(ignored);
+    this.options = {
+      sourceMap: !!config.sourceMaps,
+      ...options,
+    };
   }
 
   optimize(file) {
-    const data = file.data;
-    const path = file.path;
-
-    try {
-      if (this.options.ignored && this.options.ignored.test(file.path)) {
-        // ignored file path: return non minified
-        const result = {
-          data,
-          // brunch passes in a SourceMapGenerator object, but wants a string back.
-          map: file.map ? file.map.toString() : null,
-        };
-        return Promise.resolve(result);
-      }
-    } catch (e) {
-      return Promise.reject(`error checking ignored files to uglify ${e}`);
-    }
-
-    if (file.map) {
-      this.options.inSourceMap = file.map.toJSON();
-    }
-
-    this.options.outSourceMap = this.options.sourceMaps ?
-      `${path}.map` : undefined;
-
-    try {
-      const optimized = uglify.minify(data, this.options);
-
-      const result = optimized && this.options.sourceMaps ? {
-        data: optimized.code,
-        map: optimized.map,
-      } : {
-        data: optimized.code,
+    if (this.isIgnored(file.path)) {
+      return {
+        data: file.data,
+        map: file.map && `${file.map}`,
       };
-      result.data = result.data.replace(/\n\/\/# sourceMappingURL=\S+$/, '');
-
-      return Promise.resolve(result);
-    } catch (err) {
-      return Promise.reject(formatError(err));
     }
+
+    const options = {...this.options};
+    if (file.map) {
+      options.sourceMap = {
+        content: JSON.stringify(file.map),
+        url: `${file.path}.map`,
+      };
+    }
+
+    const res = minify(file.data, options);
+    if (res.error) throw formatError(res.error);
+    if (!res.map) return {data: res.code};
+
+    return {
+      data: res.code.replace(/\/\/# sourceMappingURL=\S+$/, ''),
+      map: res.map,
+    };
   }
 }
 
-UglifyJSOptimizer.prototype.brunchPlugin = true;
-UglifyJSOptimizer.prototype.type = 'javascript';
+TerserOptimizer.prototype.brunchPlugin = true;
+TerserOptimizer.prototype.type = 'javascript';
 
-module.exports = UglifyJSOptimizer;
+module.exports = TerserOptimizer;
