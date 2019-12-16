@@ -11,7 +11,7 @@ class TerserOptimizer {
   constructor(config = {}) {
     const {ignored, ...options} = config.plugins.terser || {};
 
-    this.isIgnored = anymatch(ignored);
+    this.isIgnored = ignored ? anymatch(ignored) : () => false;
     this.options = {
       sourceMap: !!config.sourceMaps,
       ...options,

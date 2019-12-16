@@ -17,7 +17,9 @@
   "scripts": {
     "test": "mocha -r chai/register-should test"
   },
-  "files": ["index.js"],
+  "files": [
+    "index.js"
+  ],
   "dependencies": {
     "terser": "^4.4",
     "anymatch": "^3"
