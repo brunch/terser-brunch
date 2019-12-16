@@ -12,20 +12,21 @@
   "homepage": "https://github.com/brunch/terser-brunch",
   "bugs": "https://github.com/brunch/terser-brunch/issues",
   "license": "MIT",
-  "author": "Paul Miller (http://paulmillr.com)",
+  "author": "Paul Miller (https://paulmillr.com)",
   "repository": "brunch/terser-brunch",
   "scripts": {
     "test": "mocha -r chai/register-should test"
   },
+  "files": ["index.js"],
   "dependencies": {
-    "terser": "^3",
-    "anymatch": "^2"
+    "terser": "^4.4",
+    "anymatch": "^3"
   },
   "devDependencies": {
-    "chai": "^4",
-    "mocha": "^6"
+    "chai": "^4.2",
+    "mocha": "^6.2"
   },
-  "peerDependencies": {
-    "brunch": "^2"
+  "engines": {
+    "node": ">= 10.16"
   }
 }

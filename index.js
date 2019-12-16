@@ -8,7 +8,7 @@ const formatError = err => {
 };
 
 class TerserOptimizer {
-  constructor(config) {
+  constructor(config = {}) {
     const {ignored, ...options} = config.plugins.terser || {};
 
     this.isIgnored = anymatch(ignored);
