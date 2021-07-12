@@ -18,7 +18,7 @@ class TerserOptimizer {
     };
   }
 
-  optimize(file) {
+  async optimize(file) {
     if (this.isIgnored(file.path)) {
       return {
         data: file.data,
@@ -34,14 +34,17 @@ class TerserOptimizer {
       };
     }
 
-    const res = minify(file.data, options);
-    if (res.error) throw formatError(res.error);
-    if (!res.map) return {data: res.code};
+    try {
+      const res = await minify(file.data, options);
+      if (!res.map) return {data: res.code};
 
-    return {
-      data: res.code.replace(/\/\/# sourceMappingURL=\S+$/, ''),
-      map: res.map,
-    };
+      return {
+        data: res.code.replace(/\/\/# sourceMappingURL=\S+$/, ''),
+        map: res.map,
+      };
+    } catch (error) {
+      throw formatError(error);
+    }
   }
 }
 

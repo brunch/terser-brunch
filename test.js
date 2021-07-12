@@ -50,12 +50,12 @@ describe('terser-brunch', () => {
     createPlugin().should.respondTo('optimize');
   });
 
-  it('should compile and produce valid result', () => {
-    createPlugin().optimize({data, path}).should.eql({data: uglified});
+  it('should compile and produce valid result', async () => {
+    (await createPlugin().optimize({data, path})).should.eql({data: uglified});
   });
 
   it('should optimize modern JavaScript', async () => {
-    const {data} = createPlugin().optimize({data: modern, path});
+    const {data} = (await createPlugin().optimize({data: modern, path}));
     const arr = await eval(data);
 
     arr.should.be.an('array');
@@ -63,18 +63,18 @@ describe('terser-brunch', () => {
     arr[1].s.should.be.a('symbol');
   });
 
-  it('should produce source maps', () => {
+  it('should produce source maps', async () => {
     const plugin = createPlugin({
       sourceMaps: true,
     });
 
-    plugin.optimize({data, path}).should.eql({
+    (await plugin.optimize({data, path})).should.eql({
       data: uglified,
       map: '{"version":3,"sources":["0"],"names":["window","second"],"mappings":"AAA4BA,OAAOC,OAAV"}',
     });
   });
 
-  it('should return ignored files as-is', () => {
+  it('should return ignored files as-is',async () => {
     const path = 'ignored.js';
     const map = '{"version": 3}';
 
@@ -86,10 +86,10 @@ describe('terser-brunch', () => {
       },
     });
 
-    plugin.optimize({data, path, map}).should.eql({data, map});
+    (await plugin.optimize({data, path, map})).should.eql({data, map});
   });
 
-  it('should match ignored files correctly', () => {
+  it('should match ignored files correctly', async () => {
     const plugin = createPlugin({
       plugins: {
         terser: {
@@ -98,6 +98,6 @@ describe('terser-brunch', () => {
       },
     });
 
-    plugin.optimize({data, path: 'file.js'}).should.eql({data: uglified});
+    (await plugin.optimize({data, path: 'file.js'})).should.eql({data: uglified});
   });
 });
