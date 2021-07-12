@@ -21,7 +21,7 @@
     "index.js"
   ],
   "dependencies": {
-    "terser": "^5.7",
+    "terser": "^5.7.1",
     "anymatch": "^3.1.2"
   },
   "devDependencies": {
